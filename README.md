@@ -17,9 +17,9 @@ Created by
 *All authors contributed equally.*
 
 Organization
-- [![Rikkyo University](https://img.shields.io/badge/Rikkyo-University-FFFFFF?style=plastic&labelColor=582780)](https://www.rikkyo.ac.jp)
+- ![Independent Researcher](https://img.shields.io/badge/Independent-Researcher-555555?style=plastic)
 - [![The University of Tokyo](https://img.shields.io/badge/UTokyo-The%20University%20of%20Tokyo-F5C518?style=plastic&labelColor=59B9C6)](https://www.u-tokyo.ac.jp/ja/index.html)
-- [![RIKEN](https://img.shields.io/badge/RIKEN-Institute-FFFFFF?style=plastic&labelColor=009944)](https://www.riken.jp/)
+- [![Rikkyo University](https://img.shields.io/badge/Rikkyo-University-FFFFFF?style=plastic&labelColor=582780)](https://www.rikkyo.ac.jp) &nbsp; [![RIKEN](https://img.shields.io/badge/RIKEN-Institute-FFFFFF?style=plastic&labelColor=009944)](https://www.riken.jp/)
 
 ![overview](img/fig1_method_overview.png)
 
@@ -80,13 +80,13 @@ The two large index directories below are **not stored in this repository** (the
 
 | Empty directory | Drive folder (download contents into the directory) | File(s) restored | Approx. size |
 |---|---|---|---|
-| `event-distill-neurips2026/lists/` | [lists/](https://drive.google.com/drive/folders/1h7uJ58eVKdKBAlSgZERnJbiJPEN3e9dy?usp=sharing) | `paired_train.tsv`, `paired_val.tsv`, `imagenet_train_ratio1.0_seed1.txt` | ~256 MB |
-| `event-distill-neurips2026/Datasets/` | [Datasets/](https://drive.google.com/drive/folders/1VNT2bbAGzxuISsiOGPK0JKFJK8d_fRgG?usp=sharing) | `mapping.txt`, `N_Imagenet/train_list.txt`, `N_Imagenet/val_list.txt` | ~85 MB |
+| `event2rgb-distillation/lists/` | [lists/](https://drive.google.com/drive/folders/1h7uJ58eVKdKBAlSgZERnJbiJPEN3e9dy?usp=sharing) | `paired_train.tsv`, `paired_val.tsv`, `imagenet_train_ratio1.0_seed1.txt` | ~256 MB |
+| `event2rgb-distillation/Datasets/` | [Datasets/](https://drive.google.com/drive/folders/1VNT2bbAGzxuISsiOGPK0JKFJK8d_fRgG?usp=sharing) | `mapping.txt`, `N_Imagenet/train_list.txt`, `N_Imagenet/val_list.txt` | ~85 MB |
 
 After download, the resulting layout must be:
 
 ```
-event-distill-neurips2026/
+event2rgb-distillation/
 ├── lists/
 │   ├── paired_train.tsv
 │   ├── paired_val.tsv
@@ -157,7 +157,7 @@ This is the directory layout produced by the authors' own extraction scripts.
 **If your N-ImageNet lives elsewhere,** retarget the restored list files once. Each line in these files is an absolute path to a single `.npz` event file:
 
 ```bash
-cd event-distill-neurips2026
+cd event2rgb-distillation
 sed -i 's|/datasets/N-ImageNet|/your/path/to/N-ImageNet|g' \
     Datasets/N_Imagenet/train_list.txt \
     Datasets/N_Imagenet/val_list.txt
@@ -263,7 +263,7 @@ The **SIN** baseline trains a ResNet34 from scratch on `ConcatDataset(ImageNet-1
 ### Directory Layout
 
 ```
-event-distill-neurips2026/
+event2rgb-distillation/
 ├── variant_utils.py       # Shared TSV loader, sampler, datasets, transforms,
 │                          #   teacher-ckpt loader, KD loss, LR schedule, trainer helper
 ├── dist_utils.py          # Hooks into Part 1's DiST pipeline (event teacher)
@@ -324,7 +324,7 @@ Place the data exactly as below and **no TSV edit or CLI override is required** 
 Retarget the TSV once and pass the matching `--*_root` overrides at invocation:
 
 ```bash
-cd event-distill-neurips2026
+cd event2rgb-distillation
 sed -i 's|/datasets/imagenet|/your/path/to/imagenet|g; \
         s|/datasets/N-ImageNet|/your/path/to/N-ImageNet|g' \
     lists/paired_train.tsv
@@ -357,10 +357,10 @@ A subtlety worth noting: for the TSV-driven scripts, `--rgb_train_root` is only 
 
 ### Main Experiment: ED_Student (ResNet34)
 
-This reproduces the paper's primary distillation result. Run from `event-distill-neurips2026/`:
+This reproduces the paper's primary distillation result. Run from `event2rgb-distillation/`:
 
 ```bash
-cd event-distill-neurips2026
+cd event2rgb-distillation
 python resnet34_variant/train_event_distilled.py \
     --alpha_ce 0.8 \
     --alpha_kd 0.2 \
@@ -372,7 +372,7 @@ The `--dist_weight` argument points at the DiST ResNet34 checkpoint produced by 
 
 ### Other Paper Variants
 
-All commands assume cwd `event-distill-neurips2026/` and use ResNet34.
+All commands assume cwd `event2rgb-distillation/` and use ResNet34.
 
 **baseline** (pure CE, no KD signal):
 
@@ -452,7 +452,7 @@ Stylized-ImageNet must be generated separately following [rgeirhos/Stylized-Imag
 
 ### Common Command-Line Flags
 
-Every training script in Part 2 accepts the arguments below. Defaults are chosen so that a standard run from `event-distill-neurips2026/` works with the restored `lists/` TSVs (see [Auxiliary Data Files](#auxiliary-data-files-hosted-on-google-drive)) after the absolute data paths inside them are updated.
+Every training script in Part 2 accepts the arguments below. Defaults are chosen so that a standard run from `event2rgb-distillation/` works with the restored `lists/` TSVs (see [Auxiliary Data Files](#auxiliary-data-files-hosted-on-google-drive)) after the absolute data paths inside them are updated.
 
 | Flag                       | Purpose                                                                  |
 |----------------------------|--------------------------------------------------------------------------|
@@ -483,7 +483,7 @@ Each run creates `{outdir}/{run_name}/version_N/` containing:
 
 ### Notes
 
-- **Working directory.** The scripts add `event-distill-neurips2026/` to `sys.path` on import, so modules resolve regardless of where you launch from; however, path-typed CLI defaults (`lists/…`, `./runs`) are computed relative to the script location, so running from `event-distill-neurips2026/` is still the least-surprising option.
+- **Working directory.** The scripts add `event2rgb-distillation/` to `sys.path` on import, so modules resolve regardless of where you launch from; however, path-typed CLI defaults (`lists/…`, `./runs`) are computed relative to the script location, so running from `event2rgb-distillation/` is still the least-surprising option.
 - **TSV pairing and DDP.** CE- and KD-branch DataLoaders share a `SyncedDistributedSampler` instance to keep their sample order identical. The scripts therefore pass `use_distributed_sampler=False` to Lightning's `Trainer`; do not change this unless you drop the paired-loader requirement.
 - **Teacher checkpoints are user-provided.** The DiST event teacher (`--dist_weight`) comes from Part 1; the RGB / Gray / B&W teachers come from either a standard torchvision baseline or from `teacher_train.py`. None of these are bundled in this release.
 
@@ -494,9 +494,9 @@ Each run creates `{outdir}/{run_name}/version_N/` containing:
 If you find this code or the released checkpoints useful, please cite:
 
 ```bibtex
-@inproceedings{kihara2026shape,
+@inproceedings{yasuki2026event2rgb,
   title     = {The Shape of Events: Edge-Based Inductive Biases via Cross-Domain Distillation},
-  author    = {Kihara, Soshun and Yasuki, Shunsuke and Taki, Masato},
+  author    = {Shunsuke, Yasuki and Soshun Kihara and Masato, Taki},
   booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
   year      = {2026}
 }

@@ -1,11 +1,35 @@
-# The Shape of Events: Edge-Based Inductive Biases via Cross-Domain Distillation
+**[NeurIPS 2026] The Shape of Events**: Edge-Based Inductive Biases via Cross-Domain Distillation
+========
+[![NeurIPS - 2026](https://img.shields.io/badge/NeurIPS-2026-191970)](https://neurips.cc/Conferences/2026)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=plastic)](LICENSE)
+<!-- arXiv badge — add once the preprint is posted:
+[![arXiv](https://img.shields.io/badge/arXiv-XXXX.XXXXX-b31b1b.svg?style=plastic)](https://arxiv.org/abs/XXXX.XXXXX) -->
 
-Official code release for our **NeurIPS 2026** paper.
+This is the official code release for the paper:
+> **The Shape of Events: Edge-Based Inductive Biases via Cross-Domain Distillation**, in NeurIPS 2026.
 
-Soshun Kihara¹, Shunsuke Yasuki², Masato Taki¹ ³ &nbsp;(*equal contribution*)
-¹ Graduate School of Artificial Intelligence and Science, Rikkyo University &nbsp;·&nbsp; ² The University of Tokyo &nbsp;·&nbsp; ³ RIKEN
+Created by
 
-📄 Paper: arXiv link — *to appear* &nbsp;·&nbsp; 📦 Pretrained checkpoints & auxiliary data: Google Drive (links below)
+- Soshun Kihara
+- [Shunsuke Yasuki](https://snskysk.github.io/)
+- [Masato Taki](https://scholar.google.com/citations?hl=en&user=3nMhvfgAAAAJ)
+
+*All authors contributed equally.*
+
+Organization
+- [![Rikkyo University](https://img.shields.io/badge/Rikkyo-University-FFFFFF?style=plastic&labelColor=582780)](https://www.rikkyo.ac.jp)
+- [![The University of Tokyo](https://img.shields.io/badge/UTokyo-The%20University%20of%20Tokyo-F5C518?style=plastic&labelColor=59B9C6)](https://www.u-tokyo.ac.jp/ja/index.html)
+- [![RIKEN](https://img.shields.io/badge/RIKEN-Institute-FFFFFF?style=plastic&labelColor=009944)](https://www.riken.jp/)
+
+![overview](img/fig1_method_overview.png)
+
+*Method overview and summary of results. **Left:** cross-domain knowledge distillation from a frozen DiST event teacher (trained on N-ImageNet) into an RGB ResNet-34 student (trained on ImageNet); the two domains are paired at the instance level, enabling a per-sample KL between teacher and student logits. **Right:** robustness gains of ED\_Student (α = 0.2) over the RGB baseline across the three axes studied in the paper — color invariance, shape bias, and high-frequency noise robustness — plus downstream transfer.*
+
+## Abstract
+
+Convolutional neural networks trained on ImageNet are known to exhibit a strong preference for local high-frequency texture, an inductive bias that translates into fragile robustness against distribution shifts in real-world environments. Event cameras, in contrast, record only changes in scene brightness and are therefore well suited to capturing contour information; however, due to the absence of diagnostic benchmarks in the event domain, the inductive bias that event-camera data instills in vision models has remained underexplored. In this work, we use knowledge distillation from the event domain to the RGB domain so as to exploit the rich evaluation toolkit available in the RGB domain and systematically dissect this inductive bias. Our experiments show that distillation from the event domain induces, in the RGB domain, color invariance, shape bias, and robustness to high-frequency noise. We identify the underlying mechanism as the model suppressing its dependence on high-frequency texture while acquiring a stronger dependence on edge-based object shape. This hypothesis is supported by changes in how color and spatial information are processed at the early layers, together with a spectral trade-off in which robustness to the absence of high-frequency components coexists with vulnerability to contamination of the relied-upon frequency bands and to disruption of geometric structure. We further show that this inductive bias differs from existing robustification methods and that it functions as a useful prior for diverse downstream tasks in which shape and contour information contribute alongside other cues.
+
+---
 
 The code is organised into two parts:
 

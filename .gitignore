@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Model checkpoints / weights (released on Google Drive — see README.md)
+*.pth
+*.ckpt
+*.pt
+*.tar
+*.safetensors
+
+# Large index / data files (released on Google Drive — see lists/DOWNLOAD.md, Datasets/N_Imagenet/DOWNLOAD.md)
+lists/*.tsv
+lists/*.txt
+Datasets/N_Imagenet/train_list.txt
+Datasets/N_Imagenet/val_list.txt
+
+# Training outputs
+experiments/
+runs/
+*.log
+events.out.tfevents.*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

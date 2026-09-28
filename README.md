@@ -3,6 +3,7 @@
 [![NeurIPS - 2026](https://img.shields.io/badge/NeurIPS-2026-191970)](https://neurips.cc/Conferences/2026)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=plastic)](LICENSE)
 [![arXiv](https://img.shields.io/badge/arXiv-2609.30478-b31b1b.svg?style=plastic)](https://arxiv.org/abs/2609.30478)
+[![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Models-FFD21E?style=plastic)](https://huggingface.co/snskysk/event2rgb-distillation)
 
 This is the official code release for the paper:
 > **The Shape of Events: Edge-Based Inductive Biases via Cross-Domain Distillation**, in NeurIPS 2026.
@@ -41,7 +42,45 @@ Shared utilities used by both parts live in `train_event_teacher/base/`.
 
 ## Pretrained Checkpoints
 
-We release pretrained checkpoints for every model used in the paper so multi-day training runs can be skipped. Each link below points to the corresponding checkpoint on Google Drive.
+We release pretrained checkpoints for every model used in the paper so multi-day training runs can be skipped.
+
+### On Hugging Face (recommended)
+
+The RGB students are available at [`snskysk/event2rgb-distillation`](https://huggingface.co/snskysk/event2rgb-distillation) as
+weights-only `safetensors` that load straight into `torchvision`:
+
+```python
+import torchvision
+from huggingface_hub import hf_hub_download
+from safetensors.torch import load_file
+
+path = hf_hub_download("snskysk/event2rgb-distillation",
+                       "resnet34-ed-student.safetensors")
+model = torchvision.models.resnet34(weights=None)
+model.load_state_dict(load_file(path), strict=True)
+model.eval()
+```
+
+| File on the Hub | Arch | Paper name | ImageNet top-1 |
+|---|---|---|---:|
+| `resnet34-baseline.safetensors` | ResNet-34 | baseline | 73.90 |
+| `resnet34-ed-student.safetensors` | ResNet-34 | **ED_Student** (main result) | 69.70 |
+| `resnet34-ed-softlabelonly.safetensors` | ResNet-34 | ED_SoftLabelOnly | 53.50 |
+| `resnet34-self-distilled.safetensors` | ResNet-34 | Self Distilled | 74.72 |
+| `resnet34-gray-distilled.safetensors` | ResNet-34 | Gray Distilled | 74.60 |
+| `resnet50-baseline.safetensors` | ResNet-50 | baseline | 78.16 |
+| `resnet50-ed-student.safetensors` | ResNet-50 | ED_Student | 67.47 |
+
+These contain the **student** network only. The Lightning checkpoints below also
+embed the frozen DiST event teacher — the public checkpoint released by the
+N-ImageNet authors — so the Hub copies are both smaller and free of redistributed
+third-party weights.
+
+### On Google Drive (full set, original checkpoints)
+
+The links below cover every model in the paper, including the teachers and the
+variants not yet mirrored on the Hub. These are the original PyTorch Lightning
+`.ckpt` files (they include optimizer state).
 
 ### Teacher models (Part 1 outputs)
 
@@ -495,9 +534,11 @@ If you find this code or the released checkpoints useful, please cite:
 ```bibtex
 @inproceedings{yasuki2026event2rgb,
   title     = {The Shape of Events: Edge-Based Inductive Biases via Cross-Domain Distillation},
-  author    = {Shunsuke, Yasuki and Soshun Kihara and Masato, Taki},
+  author    = {Yasuki, Shunsuke and Kihara, Soshun and Taki, Masato},
   booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
-  year      = {2026}
+  year      = {2026},
+  eprint    = {2609.30478},
+  archivePrefix = {arXiv}
 }
 ```
 

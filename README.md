@@ -2,8 +2,7 @@
 ========
 [![NeurIPS - 2026](https://img.shields.io/badge/NeurIPS-2026-191970)](https://neurips.cc/Conferences/2026)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=plastic)](LICENSE)
-<!-- arXiv badge — add once the preprint is posted:
-[![arXiv](https://img.shields.io/badge/arXiv-XXXX.XXXXX-b31b1b.svg?style=plastic)](https://arxiv.org/abs/XXXX.XXXXX) -->
+[![arXiv](https://img.shields.io/badge/arXiv-2609.30478-b31b1b.svg?style=plastic)](https://arxiv.org/abs/2609.30478)
 
 This is the official code release for the paper:
 > **The Shape of Events: Edge-Based Inductive Biases via Cross-Domain Distillation**, in NeurIPS 2026.
